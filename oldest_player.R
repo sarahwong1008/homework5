@@ -8,19 +8,15 @@
 #' get_oldest_player(2019)
 
 get_oldest_player <- function(year) {
-  # Filter the dataset to get the players' data for the specified year
-  players_in_year <- subset(nba_data, Year == year)
-
-  if (nrow(players_in_year) == 0) {
-    # No player data found for the given year
-    return(NULL)
-  } else {
-    # Find the oldest player in the specified year
-    oldest_age <- max(players_in_year$Age)
-    oldest_players <- subset(players_in_year, Age == oldest_age)
-
-    # If multiple players have the same age, return the first one (you can sort by any other criteria)
-    oldest_player <- oldest_players$Player[1]
-    return(oldest_player)
-  }
+  # Subset the data for the given year
+  data_year <- data[data$Year == year,]
+ 
+  # Find the oldest player(s)
+  oldest_players <- data_year[data_year$Age == max(data_year$Age),]
+ 
+  # If multiple players have the same age, return the one with the most points
+  oldest_player <- oldest_players[which.max(oldest_players$PTS),]$Player
+ 
+  # Return the player's name
+  return(paste("The oldest player in", year, "was", oldest_player, "aged", max(data_year$Age)))
 }
