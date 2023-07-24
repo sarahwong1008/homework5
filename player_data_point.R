@@ -9,5 +9,14 @@
 #' get_player_data_point(2019, "LeBron James")
 
 get_player_data_point <- function(year, player) {
-  # Your code here to retrieve and return the data point for the player in the given year.
+  # Filter the dataset to get the data point for the specified player in the given year
+  player_data_point <- subset(player_data, Player == player & Year == year)
+
+  if (nrow(player_data_point) == 0) {
+    # Player data not found for the given year
+    return(NULL)
+  } else {
+    # Return the data point for the player in the given year
+    return(player_data_point)
+  }
 }
